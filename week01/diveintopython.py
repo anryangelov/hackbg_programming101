@@ -1,6 +1,90 @@
+'''
+>>> is_number_balanced(9)
+True
+>>> is_number_balanced(4518)
+True
+>>> is_number_balanced(28471)
+False
+>>> is_number_balanced(1238033)
+True
+
+>>> is_increasing([1,2,3,4,5])
+True
+>>> is_increasing([1])
+True
+>>> is_increasing([5,6,-10])
+False
+>>> is_increasing([1,1,1,1])
+False
+
+>>> is_decreasing([5,4,3,2,1])
+True
+>>> is_decreasing([1,2,3])
+False
+>>> is_decreasing([100, 50, 20])
+True
+>>> is_decreasing([1,1,1,1])
+False
+
+>>> get_largest_palindrome(99)
+88
+>>> get_largest_palindrome(252)
+242
+>>> get_largest_palindrome(994687)
+994499
+>>> get_largest_palindrome(754649)
+754457
+
+>>> prime_numbers(30)
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+>>> prime_numbers(3)
+[2, 3]
+
+>>> is_anagram("BRADE", "BeaRD")
+True
+>>> is_anagram("TOP_CODER", "COTO_PRODE")
+False
+
+>>> birthday_ranges([1, 2, 3, 4, 5], [(1, 2), (1, 3), (1, 4), (1, 5), (4, 6)])
+[2, 3, 4, 5, 2]
+
+>>> m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+>>> sum_matrix(m)
+45
+>>> m = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+>>> sum_matrix(m)
+0
+>>> m = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+>>> sum_matrix(m)
+55
+
+>>> from pprint import pprint
+>>> pprint(matrix_bombing_plan([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+{(0, 0): 42,
+ (0, 1): 36,
+ (0, 2): 37,
+ (1, 0): 30,
+ (1, 1): 15,
+ (1, 2): 23,
+ (2, 0): 29,
+ (2, 1): 15,
+ (2, 2): 26}
+
+>>> is_transversal((4, 5, 6), ((5, 7, 9), (1, 4, 3), (2, 6)))
+True
+>>> is_transversal((1, 2), ((1, 5), (2, 3), (4, 7)))
+False
+>>> is_transversal((2, 3, 4), ((1, 7), (2, 3, 5), (4, 8)))
+False
+
+>>> generate_transversals([[1, 4, 5], [2, 7], [1, 9]])
+[[1, 2], [1, 7], [2, 4, 9], [2, 5, 9], [4, 7, 9], [5, 7, 9]]
+>>> generate_transversals([[7,8], [2, 3, 4]])
+[[8, 2], [8, 3], [8, 4], [2, 7], [3, 7], [4, 7]]
+'''
+
 from firstday import palindrome, char_histogram
 from itertools import combinations
-from pprint import pprint
 
 
 def is_number_balanced(n):
@@ -16,13 +100,6 @@ def is_number_balanced(n):
     return left == right
 
 
-print(is_number_balanced(9))
-print(is_number_balanced(4518))
-print(is_number_balanced(28471))
-print(is_number_balanced(1238033))
-print()
-
-
 def is_increasing(seq):
     previous = seq[0] - 1
     for integer in seq:
@@ -30,13 +107,6 @@ def is_increasing(seq):
             return False
         previous = integer
     return True
-
-
-print(is_increasing([1, 2, 3, 4, 5]))
-print(is_increasing([1]))
-print(is_increasing([5, 6, -10]))
-print(is_increasing([1, 1, 1, 1]))
-print()
 
 
 def is_decreasing(seq):
@@ -48,25 +118,11 @@ def is_decreasing(seq):
     return True
 
 
-print(is_decreasing([5, 4, 3, 2, 1]))
-print(is_decreasing([1, 2, 3]))
-print(is_decreasing([100, 50, 20]))
-print(is_decreasing([1, 1, 1, 1]))
-print()
-
-
 def get_largest_palindrome(n):
     r = reversed(range(n))
     for number in r:
         if palindrome(number):
             return number
-
-
-print(get_largest_palindrome(99))
-print(get_largest_palindrome(252))
-print(get_largest_palindrome(994687))
-print(get_largest_palindrome(754649))
-print()
 
 
 def prime_numbers(n):
@@ -80,17 +136,8 @@ def prime_numbers(n):
     return [2] + l[1:]
 
 
-print(prime_numbers(30))
-print(prime_numbers(3))
-print()
-
-
 def is_anagram(a, b):
     return char_histogram(a.lower()) == char_histogram(b.lower())
-
-print(is_anagram("BRADE", "BeaRD"))
-print(is_anagram("TOP_CODER", "COTO_PRODE"))
-print()
 
 
 def birthday_ranges(birthdays, ranges):
@@ -104,20 +151,11 @@ def birthday_ranges(birthdays, ranges):
     return res
 
 
-print(birthday_ranges([1, 2, 3, 4, 5], [(1, 2), (1, 3), (1, 4), (1, 5), (4, 6)]))
-
-
 def sum_matrix(m):
     res = 0
     for row in m:
         res += sum(row)
     return res
-
-
-print(sum_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
-print(sum_matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]]))
-print(sum_matrix([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]))
-print()
 
 
 def get_neighbours_indexes(a, b, row_limit, column_limit):
@@ -146,21 +184,11 @@ def matrix_bombing_plan(m):
     return res
 
 
-pprint(matrix_bombing_plan([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
-print()
-
-
 def is_transversal(transversal, family):
     for s in family:
         if set(transversal).isdisjoint(set(s)):
             return False
     return True
-
-
-print(is_transversal((4, 5, 6), ((5, 7, 9), (1, 4, 3), (2, 6))))
-print(is_transversal((1, 2), ((1, 5), (2, 3), (4, 7))))
-print(is_transversal((2, 3, 4), ((1, 7), (2, 3, 5), (4, 8))))
-print()
 
 
 def issubset(lists, check_list):
@@ -182,5 +210,8 @@ def generate_transversals(family):
                     res.append(list(comb))
     return res
 
+print(generate_transversals([[7,8], [2, 3, 4]]))
 
-print(generate_transversals([[1, 4, 5], [2, 7], [1, 9]]))
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
