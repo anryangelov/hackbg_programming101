@@ -191,11 +191,11 @@ def is_transversal(transversal, family):
     return True
 
 
-def issubset(lists, check_list):
+def isoverlap(lists, check_list):
     for one_list in lists:
         if set(one_list).issubset(set(check_list)):
-            return False
-    return True
+            return True
+    return False
 
 
 def generate_transversals(family):
@@ -206,11 +206,10 @@ def generate_transversals(family):
     for i in range(1, len(elements)):
         for comb in combinations(elements, i):
             if is_transversal(comb, family):
-                if issubset(res, comb):
+                if not isoverlap(res, comb):
                     res.append(list(comb))
     return res
 
-print(generate_transversals([[7,8], [2, 3, 4]]))
 
 if __name__ == "__main__":
     import doctest
