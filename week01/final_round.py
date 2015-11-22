@@ -51,7 +51,18 @@ False
 >>> numbers_to_message([1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3, 0, 1, 7, 2, 6, 6, 3, 2])
 'Ivo e Panda'
 
+>>> message_to_numbers("abc")
+[2, -1, 2, 2, -1, 2, 2, 2]
+>>> message_to_numbers("a")
+[2]
+>>> message_to_numbers("Ivo e Panda")
+[1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3, 0, 1, 7, 2, 6, 6, 3, 2]
+>>> message_to_numbers("aabbcc")
+[2, -1, 2, -1, 2, 2, -1, 2, 2, -1, 2, 2, 2, -1, 2, 2, 2]
+
+
 '''
+
 
 def count_words(arr):
     res = {}
@@ -64,6 +75,20 @@ def nan_expand(times):
     if times == 0:
         return ''
     return ' '.join(["Not a"] * times) + " NaN"
+
+
+# one more solution
+def nan_expand_recur(times):
+    if times == 0:
+        return ''
+    times -= 1
+    return nan_expand_recur(times) + "Not a "
+
+
+def nan_expand_2(times):
+    if times == 0:
+        return ''
+    return nan_expand_recur(times) + 'NaN'
 
 
 def iterations_of_nan_expand(expanded):
@@ -99,12 +124,12 @@ def group(l):
 
 
 def max_consecutive(items):
-    max = 0
+    curr_max = 0
     seq = group(items)
     for l in seq:
-        if len(l) > max:
-            max = len(l)
-    return max
+        if len(l) > curr_max:
+            curr_max = len(l)
+    return curr_max
 
 
 def gas_stations(distance, tank_size, stations):
@@ -137,18 +162,19 @@ def sum_of_numbers(st):
     return sum(numbers)
 
 
+keypad = ((2, 'abc'), (3, 'def'), (4, 'ghi'), (5, 'jkl'),
+    (6, 'mno'), (7, 'pqrs'), (8, 'tuv'), (9, 'wxyz'))
+
+
 def numbers_to_message(seq):
     res = []
 
-    t = ((2, 'abc'), (3, 'def'), (4, 'ghi'), (5, 'jkl'),
-        (6, 'mno'), (7, 'pqrs'), (8, 'tuv'), (9, 'wxyz'))
     mapper = {}
-    for k, v in t:
+    for k, v in keypad:
         for i, letter in enumerate(v, 1):
             mapper[tuple([k] * i)] = letter
 
     grouped = group(seq)
-    # print(grouped)
     capitalized = False
     for one_group in grouped:
         if 0 in one_group:
@@ -159,12 +185,37 @@ def numbers_to_message(seq):
             continue
         else:
             letter = mapper[tuple(one_group)]
-            if capitalized == True:
+            if capitalized is True:
                 letter = letter.upper()
                 capitalized = False
             res.append(letter)
 
     return ''.join(res)
+
+
+def message_to_numbers(message):
+    res = []
+
+    mapper = {}
+    for digit, st in keypad:
+        for i, char in enumerate(st, 1):
+            mapper[char] = [digit] * i
+
+    last_digit = None
+    for char in message:
+        if char == ' ':
+            res.append(0)
+            continue
+        if char.isupper():
+            res.append(1)
+            char = char.lower()
+        digits = mapper.get(char, None)
+        if digits:
+            if digits[0] == last_digit:
+                res.append(-1)
+            res += digits
+            last_digit = digits[0]
+    return res
 
 
 if __name__ == '__main__':
