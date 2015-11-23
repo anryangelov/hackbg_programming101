@@ -46,9 +46,9 @@ False
 
 >>> numbers_to_message([2, -1, 2, 2, -1, 2, 2, 2])
 'abc'
->>> numbers_to_message([2])
+>>> numbers_to_message([2, 2, 2, 2])
 'a'
->>> numbers_to_message([1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3, 0, 1, 7, 2, 6, 6, 3, 2])
+>>> numbers_to_message([1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3, 0, 1, 7, 7, 7, 7, 7, 2, 6, 6, 3, 2])
 'Ivo e Panda'
 
 >>> message_to_numbers("abc")
@@ -106,7 +106,7 @@ def iterations_of_nan_expand(expanded):
         i2 += 6
     if not i2 == len_exp:
         return False
-    return round(i2 / 6)
+    return i2 / 6
 
 
 def group(l):
@@ -166,6 +166,19 @@ keypad = ((2, 'abc'), (3, 'def'), (4, 'ghi'), (5, 'jkl'),
     (6, 'mno'), (7, 'pqrs'), (8, 'tuv'), (9, 'wxyz'))
 
 
+def fix_len(seq):
+    res = []
+    for l in seq:
+        if 7 in l or 9 in l:
+            max_len = 4
+        else:
+            max_len = 3
+        while len(l) > max_len:
+            l = l[:-max_len]
+        res.append(l)
+    return res
+
+
 def numbers_to_message(seq):
     res = []
 
@@ -175,6 +188,7 @@ def numbers_to_message(seq):
             mapper[tuple([k] * i)] = letter
 
     grouped = group(seq)
+    grouped = fix_len(grouped)
     capitalized = False
     for one_group in grouped:
         if 0 in one_group:
